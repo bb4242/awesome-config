@@ -398,5 +398,5 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 
 
 -- Custom things to start
-awful.util.spawn_with_shell("pgrep nm-applet; if [ $? -ne 0]; then nm-applet; fi")
+awful.util.spawn_with_shell("killall nm-applet; nm-applet")
 awful.util.spawn_with_shell("pgrep pidgin; if [ $? -ne 0 ]; then pidgin; fi")
