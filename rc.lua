@@ -394,3 +394,9 @@ end)
 client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
+
+
+-- Custom things to start
+awful.util.spawn_with_shell("killall nm-applet; nm-applet")
+awful.util.spawn_with_shell("pidgin")
