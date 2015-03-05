@@ -1,4 +1,4 @@
--- Standard awesome library
+--- Standard awesome library
 require("awful")
 require("awful.autofocus")
 require("awful.rules")
@@ -255,6 +255,12 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "XF86AudioMute", function ()
        awful.util.spawn("amixer sset Master toggle") end),
 
+    -- Screen control
+    awful.key({ modkey, "Control" }, "y", function ()
+    	awful.util.spawn_with_shell("xrandr --output LVDS-0 --off; xrandr --output DP-2 --auto --output DP-3 --auto --right-of DP-2") end),
+    awful.key({ modkey, "Control" }, "u", function ()
+    	awful.util.spawn_with_shell("xrandr --output DP-2 --off --output DP-3 --off; xrandr --output LVDS-0 --auto") end),
+
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 
@@ -266,6 +272,7 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end)
 )
+
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
