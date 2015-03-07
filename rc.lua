@@ -262,11 +262,12 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control"}, "m", function ()
        awful.util.spawn("amixer set Master toggle") end),
 
-    -- Screen control
+
+    -- Monitor control
     awful.key({ modkey, "Control" }, "y", function ()
-    	awful.util.spawn_with_shell("xrandr --output LVDS-0 --off --output DP-2 --panning 0x0 --output DP-3 --panning 0x0; xrandr --output DP-2 --auto --output DP-3 --auto --right-of DP-2") end),
+    	awful.util.spawn_with_shell("xrandr --output LVDS-0 --off --output DP-2 --off --panning 0x0 --output DP-3 --off --panning 0x0; sleep 1; xrandr --output DP-2 --auto --output DP-3 --auto --right-of DP-2") end),
     awful.key({ modkey, "Control" }, "u", function ()
-    	awful.util.spawn_with_shell("xrandr --output DP-2 --off --output DP-3 --off; xrandr --output LVDS-0 --auto") end),
+    	awful.util.spawn_with_shell("xrandr --output DP-2 --off --output DP-3 --off; sleep 1; xrandr --output LVDS-0 --auto") end),
 
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
