@@ -411,3 +411,4 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 awful.util.spawn_with_shell("killall nm-applet; nm-applet")
 awful.util.spawn_with_shell("pgrep pidgin; if [ $? -ne 0 ]; then pidgin; fi")
 awful.util.spawn_with_shell("xfsettingsd")
+awful.util.spawn_with_shell("light-locker")
