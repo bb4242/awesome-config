@@ -249,11 +249,18 @@ globalkeys = awful.util.table.join(
 
     -- Volume control
     awful.key({ }, "XF86AudioRaiseVolume", function ()
-       awful.util.spawn("amixer set Master 9%+") end),
+       awful.util.spawn("amixer set Master 5%+") end),
     awful.key({ }, "XF86AudioLowerVolume", function ()
-       awful.util.spawn("amixer set Master 9%-") end),
+       awful.util.spawn("amixer set Master 5%-") end),
     awful.key({ }, "XF86AudioMute", function ()
-       awful.util.spawn("amixer sset Master toggle") end),
+       awful.util.spawn("amixer set Master toggle") end),
+
+    awful.key({ modkey, "Control"}, "Up", function ()
+       awful.util.spawn("amixer set Master 5%+") end),
+    awful.key({ modkey, "Control"}, "Down", function ()
+       awful.util.spawn("amixer set Master 5%-") end),
+    awful.key({ modkey, "Control"}, "m", function ()
+       awful.util.spawn("amixer set Master toggle") end),
 
     -- Screen control
     awful.key({ modkey, "Control" }, "y", function ()
