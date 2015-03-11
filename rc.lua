@@ -7,11 +7,13 @@ require("beautiful")
 -- Notification library
 require("naughty")
 
+-- Widgets
+vicious = require("vicious")
+require("obvious.cpu")
+require("obvious.volume_alsa")
+
 -- Load Debian menu entries
 require("debian.menu")
-
--- Load volume plugin
-require("volume")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -40,7 +42,8 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init("/usr/share/awesome/themes/sky/theme.lua")
+beautiful.init( awful.util.getdir("config") .. "/themes/awesome-solarized/dark/theme.lua" )
+--beautiful.init(awful.util.getdir("config") .. "themes/awesome-solarized/dark/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator"
@@ -101,8 +104,27 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 -- }}}
 
 -- {{{ Wibox
+
 -- Create a textclock widget
-mytextclock = awful.widget.textclock({ align = "right" }, "%a %b %d, %I:%m %p")
+mytextclock = awful.widget.textclock({ align = "right" }, "%a %b %d, %I:%M %p", 15)
+
+-- CPU usage widget
+-- cpuwidget = awful.widget.graph()
+-- cpuwidget:set_width(50)
+-- cpuwidget:set_height(30)
+-- cpuwidget:set_background_color("#494B4F")
+-- cpuwidget:set_color("#FF5656")
+-- cpuwidget:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
+
+-- cpuwidget_t = awful.tooltip({ objects = { cpuwidget.widget },})
+
+-- -- Register CPU widget
+-- vicious.register(cpuwidget, vicious.widgets.cpu, 
+--                     function (widget, args)
+--                         cpuwidget_t:set_text("CPU Usage: " .. args[1] .. "%")
+--                         return args[1]
+--                     end)
+
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
@@ -180,9 +202,11 @@ for s = 1, screen.count() do
             mytaglist[s],
             mypromptbox[s],
             layout = awful.widget.layout.horizontal.leftright,
-	    volume_widget
         },
         mylayoutbox[s],
+--	obvious.cpu(),
+--	obvious.volume_alsa(),
+--	cpuwidget,
         mytextclock,
         s == 1 and mysystray or nil,
         mytasklist[s],
@@ -190,6 +214,84 @@ for s = 1, screen.count() do
     }
 end
 -- }}}
+
+
+-- {{{ Add widget bar on the bottom of the screen with info widgets
+
+-- -- Memory display
+-- memwidget2 = widget({ type = "textbox" })
+-- vicious.register(memwidget2, vicious.widgets.mem, "$1% ($2MB/$3MB)", 5)
+
+
+
+-- -- Initialize widget
+-- memwidget = awful.widget.progressbar()
+-- -- Progressbar properties
+-- memwidget:set_width(100)
+-- memwidget:set_height(20)
+-- memwidget:set_vertical(true)
+-- memwidget:set_background_color("#494B4F")
+-- memwidget:set_border_color(nil)
+-- memwidget:set_color("#AECF96")
+-- memwidget:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
+-- -- Register widget
+-- vicious.register(memwidget, vicious.widgets.mem, "$1", 2)
+
+-- --  Network usage widget
+-- -- Initialize widget, use widget({ type = "textbox" }) for awesome < 3.5
+-- netwidget = widget({type = "textbox"})
+-- -- Register widget
+-- vicious.register(netwidget, vicious.widgets.net, '<span color="#CC9393">eth0 down: ${eth0 down_kb}</span> <span color="#7F9F7F">eth0 up: ${eth0 up_kb}</span>', 3)
+
+-- netwidget2 = widget({type = "textbox"})
+-- -- Register widget
+-- vicious.register(netwidget2, vicious.widgets.net, '<span color="#CC9393">wlan1 down: ${wlan1 down_kb}</span> <span color="#7F9F7F">wlan1 up: ${wlan1 up_kb}</span>', 3)
+
+
+-- require("obvious.volume_alsa")
+-- require("obvious.cpu")
+-- --require("obvious.wlan")
+-- --obvious.wlan.set_device("wlan1")
+
+-- mywibox2 = awful.wibox({ position = "bottom", height = 20, screen = 1})
+
+
+-- -- local left_graphbox = wibox.layout.fixed.horizontal()
+-- -- left_graphbox:add(obvious.cpu())
+-- -- left_graphbox:add(obvious.volume_alsa())
+
+-- -- local right_graphbox = wibox.layout.fixed.horizontal()
+-- -- right_graphbox:add(memwidget)
+-- -- right_graphbox:add(memwidget2)
+
+-- -- graphbox_layout = wibox.layout.align.horizontal()
+-- -- -- graphbox_layout:set_left(left_graphbox)
+-- -- -- graphbox_layout:set_right(right_graphbox)
+-- -- mywibox2:set_widget(graphbox_layout)
+
+
+
+
+
+
+-- -- mywibox2.widgets = {
+
+-- --    {
+-- --       obvious.cpu(),
+-- --       layout = awful.widget.layout.horizontal.rightleft
+-- --    },
+-- --    obvious.volume_alsa(),
+-- --    -- --memwidget,
+-- --    -- memwidget2,
+-- --    -- --cpuwidget,
+-- --    -- netwidget,
+-- --    -- netwidget2,
+-- --    --layout = awful.widget.layout.horizontal.leftright
+-- -- }
+
+-- }}}
+
+
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
@@ -367,6 +469,8 @@ awful.rules.rules = {
     { rule = { class = "gimp" },
       properties = { floating = true } },
     { rule = { class = "Pidgin" },
+      properties = { floating = true } },
+    { rule = { class = "KeePass2" },
       properties = { floating = true } },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
